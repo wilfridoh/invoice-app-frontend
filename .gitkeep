@@ -1,0 +1,23 @@
+# invoice-app-frontend — Angular 17
+# Crear con: ng new invoice-app-frontend --standalone --routing --style=scss
+# Estructura de carpetas a implementar:
+#
+# src/app/
+#   core/
+#     auth/           → AuthService, AuthGuard, JwtInterceptor
+#     models/         → invoice.model.ts, client.model.ts, product.model.ts, user.model.ts
+#     services/       → invoice.service.ts, client.service.ts, product.service.ts, user.service.ts
+#   shared/
+#     components/     → data-table, search-bar, confirm-dialog, loading-spinner
+#     pipes/          → currency-format.pipe.ts, date-format.pipe.ts
+#   layout/
+#     shell.component.ts  → sidebar + topbar + router-outlet
+#   features/
+#     auth/           → login.component.ts
+#     dashboard/      → dashboard.component.ts
+#     invoices/       → invoice-list, invoice-form, invoice-detail
+#     clients/        → client-list, client-form
+#     products/       → product-list, product-form
+#     users/          → user-list, user-form
+#   app.routes.ts
+#   app.config.ts
