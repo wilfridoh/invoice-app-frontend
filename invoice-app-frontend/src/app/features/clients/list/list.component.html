@@ -1,0 +1,66 @@
+<section class="page">
+  <header class="page-header">
+    <h1>Clientes</h1>
+    <a routerLink="/clients/new" class="btn btn-primary">Nuevo cliente</a>
+  </header>
+
+  <div class="toolbar">
+    <input
+      type="text"
+      [(ngModel)]="search"
+      placeholder="Buscar por nombre, documento o email"
+      (keyup.enter)="onSearch()"
+    />
+    <button class="btn" (click)="onSearch()">Buscar</button>
+  </div>
+
+  @if (error) {
+    <p class="alert">{{ error }}</p>
+  }
+
+  @if (loading) {
+    <p>Cargando...</p>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Documento</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (client of clients; track client.id) {
+            <tr>
+              <td>{{ client.id }}</td>
+              <td>{{ client.name }}</td>
+              <td>{{ client.documentType }} - {{ client.documentNumber }}</td>
+              <td>{{ client.email }}</td>
+              <td>{{ client.phone }}</td>
+              <td class="actions">
+                <a [routerLink]="['/clients', client.id, 'edit']" class="btn btn-outline">Editar</a>
+                <button class="btn btn-danger" (click)="delete(client.id)">Eliminar</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6">No hay clientes registrados.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPages > 1) {
+      <div class="pager">
+        <button class="btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Anterior</button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button class="btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Siguiente</button>
+      </div>
+    }
+  }
+</section>

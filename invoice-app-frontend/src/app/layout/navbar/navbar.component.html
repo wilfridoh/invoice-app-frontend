@@ -1,1 +1,10 @@
-<p>navbar works!</p>
+<nav class="nav-wrap">
+	<div class="brand">InvoiceApp</div>
+
+	<div class="links">
+		<a routerLink="/clients" routerLinkActive="active">Clientes</a>
+		<a routerLink="/users" routerLinkActive="active">Usuarios</a>
+	</div>
+
+	<button class="btn btn-danger" (click)="logout()">Salir</button>
+</nav>

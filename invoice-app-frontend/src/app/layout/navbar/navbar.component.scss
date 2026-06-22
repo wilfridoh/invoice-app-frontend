@@ -1,0 +1,30 @@
+.nav-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.8rem 1rem;
+	border-bottom: 1px solid #e6e6e6;
+	background: #ffffff;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+.brand {
+	font-weight: 700;
+}
+
+.links {
+	display: flex;
+	gap: 0.9rem;
+}
+
+.links a {
+	text-decoration: none;
+	color: #222;
+	padding-bottom: 0.2rem;
+}
+
+.links a.active {
+	border-bottom: 2px solid #0b5fff;
+}

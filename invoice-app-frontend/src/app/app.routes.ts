@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: '', redirectTo: 'clients', pathMatch: 'full' },
   {
     path: 'login',
     loadComponent: () =>
@@ -26,8 +26,23 @@ export const routes: Routes = [
         path: 'users/:id/edit',
         loadComponent: () =>
           import('./features/users/form/form.component').then(m => m.FormComponent)
+      },
+      {
+        path: 'clients',
+        loadComponent: () =>
+          import('./features/clients/list/list.component').then(m => m.ListComponent)
+      },
+      {
+        path: 'clients/new',
+        loadComponent: () =>
+          import('./features/clients/form/form.component').then(m => m.FormComponent)
+      },
+      {
+        path: 'clients/:id/edit',
+        loadComponent: () =>
+          import('./features/clients/form/form.component').then(m => m.FormComponent)
       }
     ]
   },
-  { path: '**', redirectTo: 'users' }
+  { path: '**', redirectTo: 'clients' }
 ];
