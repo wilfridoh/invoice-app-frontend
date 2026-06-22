@@ -1,0 +1,73 @@
+<section class="page">
+  <header class="page-header">
+    <h1>Facturas</h1>
+    <a routerLink="/invoices/new" class="btn btn-primary">Nueva factura</a>
+  </header>
+
+  <div class="toolbar">
+    <input [(ngModel)]="filters.invoiceNumber" placeholder="Numero factura" />
+    <select [(ngModel)]="filters.status">
+      <option [ngValue]="undefined">Todos</option>
+      <option value="Issued">Issued</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+    <input type="date" [(ngModel)]="filters.dateFrom" />
+    <input type="date" [(ngModel)]="filters.dateTo" />
+    <button class="btn" (click)="onSearch()">Buscar</button>
+  </div>
+
+  @if (error) {
+    <p class="alert">{{ error }}</p>
+  }
+
+  @if (loading) {
+    <p>Cargando...</p>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Numero</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (invoice of invoices; track invoice.id) {
+            <tr>
+              <td>{{ invoice.id }}</td>
+              <td>{{ invoice.invoiceNumber }}</td>
+              <td>{{ invoice.date | date:'yyyy-MM-dd' }}</td>
+              <td>{{ invoice.total | number:'1.2-2' }}</td>
+              <td>{{ invoice.status }}</td>
+              <td>{{ invoice.clientId }}</td>
+              <td>{{ invoice.sellerId }}</td>
+              <td>
+                @if (invoice.status === 'Issued') {
+                  <button class="btn btn-danger" (click)="cancel(invoice.id)">Cancelar</button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="8">No hay facturas.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPages > 1) {
+      <div class="pager">
+        <button class="btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Anterior</button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button class="btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Siguiente</button>
+      </div>
+    }
+  }
+</section>

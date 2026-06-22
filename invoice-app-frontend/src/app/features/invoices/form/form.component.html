@@ -1,0 +1,97 @@
+<section class="page">
+  <header class="page-header">
+    <h1>Nueva factura</h1>
+    <a routerLink="/invoices" class="btn btn-outline">Volver</a>
+  </header>
+
+  @if (error) {
+    <p class="alert">{{ error }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
+    <label>
+      Cliente
+      <select formControlName="clientId">
+        <option [value]="0">Seleccione</option>
+        @for (c of clients; track c.id) {
+          <option [value]="c.id">{{ c.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Vendedor
+      <select formControlName="sellerId">
+        <option [value]="0">Seleccione</option>
+        @for (u of sellers; track u.id) {
+          <option [value]="u.id">{{ u.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Fecha
+      <input type="date" formControlName="date" />
+    </label>
+
+    <div class="section">
+      <div class="section-header">
+        <h3>Detalles</h3>
+        <button type="button" class="btn" (click)="addDetail()">Agregar detalle</button>
+      </div>
+
+      <div formArrayName="details" class="rows">
+        @for (row of details.controls; track $index) {
+          <div [formGroupName]="$index" class="row-grid">
+            <select formControlName="productId" (change)="onDetailChange($index)">
+              <option [value]="0">Producto</option>
+              @for (p of products; track p.id) {
+                <option [value]="p.id">{{ p.code }} - {{ p.name }}</option>
+              }
+            </select>
+
+            <input type="number" formControlName="quantity" min="1" placeholder="Cantidad" (input)="onDetailChange($index)" />
+            <input type="number" formControlName="unitPrice" min="0.01" step="0.01" placeholder="Precio" (input)="onDetailChange($index)" />
+            <input type="number" formControlName="totalPrice" placeholder="Total" readonly />
+            <button type="button" class="btn btn-danger" (click)="removeDetail($index)">Quitar</button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h3>Pagos</h3>
+        <button type="button" class="btn" (click)="addPayment()">Agregar pago</button>
+      </div>
+
+      <div formArrayName="payments" class="rows">
+        @for (row of payments.controls; track $index) {
+          <div [formGroupName]="$index" class="row-grid pay">
+            <select formControlName="paymentMethodId">
+              <option [value]="0">Metodo pago</option>
+              @for (pm of paymentMethods; track pm.id) {
+                <option [value]="pm.id">{{ pm.name }}</option>
+              }
+            </select>
+            <input type="number" formControlName="amount" min="0.01" step="0.01" placeholder="Monto" />
+            <button type="button" class="btn btn-danger" (click)="removePayment($index)">Quitar</button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="totals">
+      <span>Subtotal: {{ subtotal | number:'1.2-2' }}</span>
+      <span>Impuesto (12%): {{ tax | number:'1.2-2' }}</span>
+      <span>Total: {{ total | number:'1.2-2' }}</span>
+      <span>Pagos: {{ paymentsTotal | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        {{ loading ? 'Guardando...' : 'Guardar factura' }}
+      </button>
+    </div>
+  </form>
+</section>

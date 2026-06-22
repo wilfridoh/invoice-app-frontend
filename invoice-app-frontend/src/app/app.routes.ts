@@ -41,6 +41,16 @@ export const routes: Routes = [
         path: 'clients/:id/edit',
         loadComponent: () =>
           import('./features/clients/form/form.component').then(m => m.FormComponent)
+      },
+      {
+        path: 'invoices',
+        loadComponent: () =>
+          import('./features/invoices/list/list.component').then(m => m.ListComponent)
+      },
+      {
+        path: 'invoices/new',
+        loadComponent: () =>
+          import('./features/invoices/form/form.component').then(m => m.FormComponent)
       }
     ]
   },
